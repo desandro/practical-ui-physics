@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+
+  <title>double attraction</title>
+
+  <style>
+  body {
+    min-height: 500px;
+    margin: 0;
+  }
+
+  .particle {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: hsla(0, 100%, 50%, 0.7);
+    border-radius: 25px;
+    top: 100px;
+  }
+
+  .target {
+    position: absolute;
+    top: -25px;
+    width: 40px;
+    height: 40px;
+    border: 130px solid hsla(210, 100%, 50%, 0.5);
+    border-radius: 50%;
+  }
+
+  .target--a { left: 150px ; }
+  .target--b { left: 650px ; }
+  </style>
+
+</head>
+<body>
+
+  <h1>double attraction</h1>
+
+<div class="target target--a"></div>
+<div class="target target--b"></div>
+<div class="particle"></div>
+
+
+<script src="demo.js"></script>
+
+</body>
+</html>
