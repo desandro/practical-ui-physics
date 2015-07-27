@@ -10,8 +10,7 @@ var canvasHeight = canvas.height;
 var positionX = 100;
 var velocityX = 0;
 var friction = 0.95;
-var target = 100;
-var attractionStrength = 0.02;
+var wind = 0;
 
 function animate() {
   update();
@@ -22,9 +21,7 @@ function animate() {
 animate();
 
 function update() {
-  var delta = target - positionX;
-  var attraction = delta * attractionStrength;
-  applyForce( attraction );
+  applyForce( wind );
   velocityX *= friction;
   positionX += velocityX;
 }
@@ -35,11 +32,8 @@ function applyForce( force ) {
 
 function render() {
   ctx.clearRect( 0, 0, canvasWidth, canvasHeight );
-  // render target
-  ctx.fillStyle = 'hsla(210, 100%, 50%, 0.7)';
-  circle( target, 100, 15 );
   // render particle
-  ctx.fillStyle = 'hsla(0, 100%, 50%, 0.7)';
+  ctx.fillStyle = 'red';
   circle( positionX, 100, 25 );
 }
 
@@ -49,7 +43,3 @@ function circle( x, y, radius ) {
   ctx.fill();
   ctx.closePath();
 }
-
-document.addEventListener( 'click', function( event) {
-  target = event.pageX;
-});
