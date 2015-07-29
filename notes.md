@@ -8,13 +8,13 @@ velocity
 
 friction
 
+drag
+
 **Forces**
 
 wind
 
 attraction
-
-drag
 
 **More forces**
 

@@ -23,7 +23,8 @@ function animate() {
 animate();
 
 function update() {
-  applyRightBoundForce();
+  applyRightBounceyBound();
+  // applyRightRubberBandBound();
   applyDragForce();
   velocityX *= friction;
   positionX += velocityX;
@@ -33,23 +34,31 @@ function applyForce( force ) {
   velocityX += force;
 }
 
-function applyRightBoundForce() {
+function applyRightBounceyBound() {
+  if ( isDragging || positionX < rightBound ) {
+    return;
+  }
+  var delta = rightBound - this.positionX;
+  var force = delta * 0.05;
+  applyForce( force );
+}
+
+function applyRightRubberBandBound() {
   if ( isDragging || positionX < rightBound ) {
     return;
   }
   // bouncing past bound
   var delta = rightBound - this.positionX;
   var force = delta * 0.1;
-  // calculate resting position with this force
   var restX = positionX + ( velocityX + force ) / ( 1 - friction );
-  // apply force if resting position is out of bounds
   if ( restX > rightBound ) {
     applyForce( force );
     return;
   }
-  // if in bounds, apply force to align at bounds
+  // bounce back
   force = delta * 0.1 - velocityX;
   applyForce( force );
+
 }
 
 function applyDragForce() {

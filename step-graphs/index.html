@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+
+  <title>step graphs</title>
+
+  <style>
+  body {
+    font-family: sans-serif;
+    font-size: 24px;
+  }
+
+  .graph {
+    margin-bottom: 60px;
+    opacity: 0.2;
+  }
+
+  .graph--canvas {
+    background: url('graph-bg.png');
+    opacity: 0;
+  }
+
+  .graph.is-visible .graph--canvas,
+  .graph.is-visible {
+    opacity: 1;
+  }
+  
+  .graph--title {
+    font-size: 40px;
+    margin-bottom: 20px;
+  }
+  </style>
+
+</head>
+<body>
+
+<div class="graph">
+  <h3 class="graph--title">velocity = 1</h3>
+  <canvas class="graph--canvas" width="1201" height="202" data-velocity="1"></canvas>
+</div>
+
+<div class="graph">
+  <h3 class="graph--title">velocity = 0.5</h3>
+  <canvas class="graph--canvas" width="1201" height="202" data-velocity="0.5"></canvas>
+</div>
+
+<div class="graph">
+  <h3 class="graph--title">velocity = 2</h3>
+  <canvas class="graph--canvas" width="1201" height="202" data-velocity="2"></canvas>
+</div>
+
+<div class="graph">
+  <h3 class="graph--title">velocity = 2; friction = 0.8</h3>
+  <canvas class="graph--canvas" width="1201" height="202" data-velocity="2" data-friction="0.8"></canvas>
+</div>
+
+<div class="graph">
+  <h3 class="graph--title">velocity = 2; friction = 0.5</h3>
+  <canvas class="graph--canvas" width="1201" height="202" data-velocity="2" data-friction="0.5"></canvas>
+</div>
+
+<div class="graph">
+  <h3 class="graph--title">force = 0.5</h3>
+  <canvas class="graph--canvas" width="1201" height="202" data-force="0.5"></canvas>
+</div>
+
+<div class="graph">
+  <h3 class="graph--title">force = 0.2</h3>
+  <canvas class="graph--canvas" width="1201" height="202" data-force="0.2"></canvas>
+</div>
+
+
+<script src="step-graphs.js"></script>
+
+</body>
+</html>
