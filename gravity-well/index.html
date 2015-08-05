@@ -1,56 +1,26 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
 
-  <title>gravity well</title>
-  
-  <style>
-  body {
-    min-height: 500px;
-    margin: 0;
-  }
-  
-  .particle {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background: hsla(0, 100%, 50%, 0.7);
-    border-radius: 25px;
-    top: 100px;
-  }
+<title>attraction - conditional</title>
 
-  .target {
-    
-    position: absolute;
-    left: 400px;
-    top: -75px;
-    width: 20px;
-    height: 20px;
-    border: 190px solid hsla(210, 100%, 50%, 0.5);
-    border-radius: 200px;
-  }
-
-  .bound {
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 200px;
-    border-right: 1px solid #888;
-  }
-
-  .bound--right { left: 800px; } 
-  </style>
+<style>
+body {
+  font-family: sans-serif;
+  margin: 0;
+}
+</style>
 
 </head>
 <body>
 
-  <h1>gravity well</h1>
+<h1>gravity well</h1>
 
-<div class="target"></div>
-<div class="particle"></div>
+<p>Drag particle</p>
 
+<canvas width="800" height="400"></canvas>
 
 <script src="demo.js"></script>
 

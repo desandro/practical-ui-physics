@@ -1,115 +1,105 @@
-/**
- * drag physics
- */
+// canvas
+var canvas = document.querySelector('canvas');
+var ctx = canvas.getContext('2d');
 
-// ----- Particle ----- //
+// get/set canvas size
+var canvasWidth = canvas.width = window.innerWidth - 20;
+var canvasHeight = canvas.height;
 
-function Particle( elem ) {
-  this.element = elem;
-  this.positionX = 25;
-  this.dragPositionX = 0;
-  this.velocityX = 0;
-  this.friction = 0.93;
-  this.accelX = 0;
-  this.isDragging = false;
-}
-
-Particle.prototype.update = function() {
-  // this.positionX = this.dragPositionX;
-  this.applyAttraction();
-  this.applyDragForce();
-  this.integrate();
-};
-
-Particle.prototype.integrate = function() {
-  this.velocityX *= this.friction;
-  this.positionX += this.velocityX;
-};
-
-Particle.prototype.applyForce = function( force ) {
-  this.velocityX += force;
-  this.accelX += force;
-};
-
-Particle.prototype.applyAttraction = function() {
-  // 
-  var distance = 600 - this.positionX;
-  var force = this.positionX - 600 + 200 * Math.sign( distance );
-  force = Math.abs( distance ) > 200 ? 0 : force;
-  force *= 0.02;
-
-  this.applyForce( force );
-}
-
-Particle.prototype.applyDragForce = function() {
-  if ( !this.isDragging ) {
-    return;
-  }
-  // change the position to drag position by applying force to acceleration
-  var dragVelocity = this.dragPositionX - this.positionX;
-  var dragForce = dragVelocity - this.velocityX;
-  // dragForce *= 0.01;
-  this.applyForce( dragForce );
-  // or
-  // this.velocityX = dragVelocity;
-};
-
-Particle.prototype.render = function() {
-  this.element.style.transform = 'translateX(' + (this.positionX - 25) + 'px)';
-};
-
-// ----- demo ----- //
-
-var particle;
-
-document.addEventListener( 'DOMContentLoaded', init, false );
-
-function init() {
-  // create particle
-  var particleElem = document.querySelector('.particle');
-  particle = new Particle( particleElem );
-  // logger = document.querySelector('.logger');
-  // 
-  document.body.addEventListener( 'mousedown', onMousedown, false );
-  // start animation
-  animate();
-}
+// particle properties
+var positionX = 100;
+var velocityX = 0;
+var friction = 0.9;
+var isDragging = false;
+var dragPositionX = positionX;
+var target = 400;
+var targetBound = 200;
+var gravityStrength = 3;
 
 function animate() {
-  particle.update();
-  particle.render();
+  update();
+  render();
   requestAnimationFrame( animate );
 }
 
-var dragStartX;
-var particleDragStartX;
-var isDragging = false;
+animate();
 
-function onMousedown( event ) {
-  event.preventDefault();
-  // get drag start positions
-  dragStartX = event.pageX;
-  particleDragStartX = particle.positionX;
-  particle.isDragging = true;
+function update() {
+  applyGravity();
+  applyDragForce();
+  // integrate physics
+  velocityX *= friction;
+  positionX += velocityX;
+}
+
+function applyForce( force ) {
+  velocityX += force;
+}
+
+function applyGravity() {
+  var distance = target - positionX;
+  // stop if in center of well
+  // if ( Math.abs( distance )  < 5 ) {
+  //   applyForce( -velocityX );
+  //   return;
+  // }
+  var gravity =  ( 1 - Math.abs( distance / targetBound ) ) * Math.sign( distance);
+  // limit at target
+  gravity = Math.abs( distance ) > targetBound ? 0 : gravity;
+  gravity *= gravityStrength;
+  applyForce( gravity );
+}
+
+function applyDragForce() {
+  if ( !isDragging ) {
+    return;
+  }
+  var dragVelocity = dragPositionX - positionX;
+  var dragForce = dragVelocity - velocityX;
+  applyForce( dragForce );
+}
+
+function render() {
+  ctx.clearRect( 0, 0, canvasWidth, canvasHeight );
+  // render target
+  ctx.fillStyle = 'hsla(210, 100%, 50%, 0.5)';
+  circle( target, 200, targetBound, 'fill' );
+  ctx.fillStyle = 'black';
+  circle( target, 200, 10, 'fill' );
+  // render particle
+  ctx.fillStyle = 'hsla(0, 100%, 50%, 0.7)';
+  circle( positionX, 200, 25, 'fill' );
+}
+
+function circle( x, y, radius, render ) {
+  ctx.beginPath();
+  ctx.arc( x, y, radius, 0, Math.PI * 2 );
+  ctx[ render ]();
+  ctx.closePath();
+}
+
+// ----- mouse events ----- //
+
+var mousedownX;
+var dragStartPositionX;
+
+document.addEventListener( 'mousedown', function( event ) {
   isDragging = true;
-  setDragPositionX( event );
-  window.addEventListener( 'mousemove', onMousemove, false );
-  window.addEventListener( 'mouseup', onMouseup, false );
+  mousedownX = event.pageX;
+  dragStartPositionX = positionX;
+  setDragPosition( event );
+  window.addEventListener( 'mousemove', setDragPosition );
+  window.addEventListener( 'mouseup', onMouseup );
+});
+
+function setDragPosition( event ) {
+  var moveX = event.pageX - mousedownX;
+  dragPositionX = dragStartPositionX + moveX;
+  event.preventDefault();
 }
 
-function onMousemove( event ) {
-  setDragPositionX( event );
-}
-
-function setDragPositionX( event ) {
-  var moveX = event.pageX - dragStartX;
-  // set dragPosition
-  particle.dragPositionX = particleDragStartX + moveX;
-}
-
-// stop dragging
 function onMouseup() {
-  particle.isDragging = false;
-  window.removeEventListener( 'mousemove', onMousemove, false );
-  window.removeEventListener( 'mouseup', onMouseup, false );
+  isDragging = false;
+  window.removeEventListener( 'mousemove', setDragPosition );
+  window.removeEventListener( 'mouseup', onMouseup );
 }
