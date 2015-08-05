@@ -8,8 +8,17 @@ var canvasHeight = canvas.height;
 
 // particle properties
 var positionX = 100;
+var velocityX = 0;
+var friction = 0.95;
+
+function update() {
+  // integrate physics
+  // velocityX *= friction;
+  // positionX += velocityX;
+}
 
 function animate() {
+  update();
   render();
   requestAnimationFrame( animate );
 }

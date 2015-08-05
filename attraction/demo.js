@@ -9,9 +9,9 @@ var canvasHeight = canvas.height;
 // particle properties
 var positionX = 100;
 var velocityX = 0;
-var friction = 0.95;
+var friction = 0.9;
 var target = 100;
-var attractionStrength = 0.02;
+var attractionStrength = 0.01;
 
 function animate() {
   update();

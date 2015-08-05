@@ -51,3 +51,7 @@ photo scroller
 Draggable element
 
 Draggable element with attraction
+
+Flickity demos
+  freescroll
+  varying sized
