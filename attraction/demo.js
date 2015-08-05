@@ -22,9 +22,11 @@ function animate() {
 animate();
 
 function update() {
-  var delta = target - positionX;
-  var attraction = delta * attractionStrength;
+  // attract particle to target
+  var distance = target - positionX;
+  var attraction = distance * attractionStrength;
   applyForce( attraction );
+  // integrate physics variables
   velocityX *= friction;
   positionX += velocityX;
 }

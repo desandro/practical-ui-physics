@@ -38,8 +38,8 @@ function applyRightBoundForce() {
     return;
   }
   // bouncing past bound
-  var delta = rightBound - this.positionX;
-  var force = delta * 0.1;
+  var distance = rightBound - this.positionX;
+  var force = distance * 0.1;
   // calculate resting position with this force
   var restX = positionX + ( velocityX + force ) / ( 1 - friction );
   // apply force if resting position is out of bounds
@@ -48,7 +48,7 @@ function applyRightBoundForce() {
     return;
   }
   // if in bounds, apply force to align at bounds
-  force = delta * 0.1 - velocityX;
+  force = distance * 0.1 - velocityX;
   applyForce( force );
 }
 

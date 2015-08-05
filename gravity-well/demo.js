@@ -33,9 +33,9 @@ Particle.prototype.applyForce = function( force ) {
 
 Particle.prototype.applyAttraction = function() {
   // 
-  var delta = 600 - this.positionX;
-  var force = this.positionX - 600 + 200 * Math.sign( delta );
-  force = Math.abs( delta ) > 200 ? 0 : force;
+  var distance = 600 - this.positionX;
+  var force = this.positionX - 600 + 200 * Math.sign( distance );
+  force = Math.abs( distance ) > 200 ? 0 : force;
   force *= 0.02;
 
   this.applyForce( force );

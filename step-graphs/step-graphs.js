@@ -36,18 +36,18 @@ StepGraph.prototype.render = function() {
     circle( ctx, x * blockSize, blockSize, blockSize * 0.4 );
 
     if ( i > 0 ) {
-      var delta = x - prevX;
+      var distance = x - prevX;
       ctx.font = '28px sans-serif';
       ctx.fillStyle = i == step ? 'hsla(0, 0%, 20%, 1)' : 'hsla(0, 0%, 20%, 0.2)';
-      var text = '+' + Math.round( delta * 10 ) / 10;
+      var text = '+' + Math.round( distance * 10 ) / 10;
       ctx.fillText( text, (x + prevX) * 0.5 * blockSize - 14, blockSize * 1.75 );
     }
   }
 
-  // var delta = x - this.previousX;
+  // var distance = x - this.previousX;
   // ctx.font = '24px sans-serif';
   // ctx.fillStyle = '#333';
-  // var text = '+' + Math.round( delta * 10 ) / 10;
+  // var text = '+' + Math.round( distance * 10 ) / 10;
   // ctx.fillText( text, x * blockSize, blockSize * 1.75 );
 
   this.x = x;

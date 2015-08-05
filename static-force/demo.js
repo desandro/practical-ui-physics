@@ -32,9 +32,9 @@ Particle.prototype.applyForce = function( force ) {
 
 Particle.prototype.applyAttraction = function() {
   // attraction
-  var delta = 600 - this.positionX;
-  delta = Math.abs( delta ) > 200 ? 0 : delta;
-  var attraction = delta * this.attractionStrength;
+  var distance = 600 - this.positionX;
+  distance = Math.abs( distance ) > 200 ? 0 : distance;
+  var attraction = distance * this.attractionStrength;
 
   this.applyForce( attraction );
 }

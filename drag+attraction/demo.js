@@ -25,8 +25,8 @@ animate();
 
 function update() {
   // attraction
-  var delta = target - positionX;
-  var attraction = delta * attractionStrength;
+  var distance = target - positionX;
+  var attraction = distance * attractionStrength;
   applyForce( attraction );
   // drag
   applyDragForce();

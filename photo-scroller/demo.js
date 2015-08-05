@@ -46,16 +46,16 @@ Particle.prototype.applyBoundForce = function( bound, isForward ) {
     return;
   }
   // bouncing past bound
-  var delta = bound - this.positionX;
-  var force = delta * 0.1;
-  var restX = this.positionX + ( this.velocityX + force ) / ( 1 - this.friction );
+  var distance = bound - this.positionX;
+  var force = distance * 0.1;
+  var restX = this.positionX + ( this.velocityX + force ) * this.friction / ( 1 - this.friction );
   var isRestOutside = isForward ? restX > bound : restX < bound;
   if ( isRestOutside ) {
     this.applyForce( force );
     return;
   }
   // bounce back
-  force = delta * 0.1 - this.velocityX;
+  force = distance * 0.1 - this.velocityX;
   this.applyForce( force );
 };
 
