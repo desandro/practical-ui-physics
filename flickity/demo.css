@@ -1,0 +1,40 @@
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body { font-family: sans-serif; }
+
+.gallery {
+  background: #EEE;
+  margin-bottom: 100px;
+}
+
+.gallery-cell {
+  width: 66%;
+  height: 400px;
+  margin-right: 10px;
+  background: #8C8;
+  border-radius: 10px;
+  counter-increment: gallery-cell;
+}
+
+/* cell number */
+.gallery-cell:before {
+  display: block;
+  text-align: center;
+  content: counter(gallery-cell);
+  line-height: 400px;
+  font-size: 100px;
+  color: white;
+}
+
+.gallery-cell:nth-child(4n+0) { background: #F90; }
+.gallery-cell:nth-child(4n+1) { background: #8C8; }
+.gallery-cell:nth-child(4n+2) { background: #F09; }
+.gallery-cell:nth-child(4n+3) { background: #09F; }
+
+.gallery--variable-sizes .gallery-cell:nth-child(4n+1) { width: 25%; }
+.gallery--variable-sizes .gallery-cell:nth-child(4n+2) { width: 90%; }
+.gallery--variable-sizes .gallery-cell:nth-child(4n+3) { width: 33%; }
+
