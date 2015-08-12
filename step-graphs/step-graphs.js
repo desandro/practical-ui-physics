@@ -44,14 +44,7 @@ StepGraph.prototype.render = function() {
     }
   }
 
-  // var distance = x - this.previousX;
-  // ctx.font = '24px sans-serif';
-  // ctx.fillStyle = '#333';
-  // var text = '+' + Math.round( distance * 10 ) / 10;
-  // ctx.fillText( text, x * blockSize, blockSize * 1.75 );
-
   this.x = x;
-
 };
 
 function circle( ctx, x, y, radius ) {

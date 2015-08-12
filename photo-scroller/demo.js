@@ -1,102 +1,91 @@
-/**
- * drag physics
- */
-
 // ----- Particle ----- //
 
-function Particle( elem ) {
-  this.element = elem;
-  this.positionX = 0;
-  this.dragPositionX = 0;
-  this.velocityX = 0;
-  this.friction = 0.95;
-  this.isDragging = false;
+var photoElem;
+var positionX = 0;
+var dragPositionX = 0;
+var velocityX = 0;
+var friction = 0.95;
+var isDragging = false;
+
+var rightBound, leftBound;
+
+function update() {
+  applyDragForce();
+  applyBoundForce( rightBound, true );
+  applyBoundForce( leftBound, false );
+  integrate();
 }
 
-Particle.prototype.update = function() {
-  // this.positionX = this.dragPositionX;
-  this.applyDragForce();
-  this.applyBoundForce( this.rightBound, true );
-  this.applyBoundForce( this.leftBound, false );
-  this.integrate();
-};
+function integrate() {
+  velocityX *= friction;
+  positionX += velocityX;
+}
 
-Particle.prototype.integrate = function() {
-  this.velocityX *= this.friction;
-  this.positionX += this.velocityX;
-};
+function applyForce( force ) {
+  velocityX += force;
+}
 
-Particle.prototype.applyForce = function( force ) {
-  this.velocityX += force;
-};
-
-Particle.prototype.applyDragForce = function() {
-  if ( !this.isDragging ) {
+function applyDragForce() {
+  if ( !isDragging ) {
     return;
   }
   // change the position to drag position by applying force to velocity
-  var dragVelocity = this.dragPositionX - this.positionX;
-  var dragForce = dragVelocity - this.velocityX;
-  this.applyForce( dragForce );
-};
+  var dragVelocity = dragPositionX - positionX;
+  var dragForce = dragVelocity - velocityX;
+  applyForce( dragForce );
+}
 
-Particle.prototype.applyBoundForce = function( bound, isForward ) {
-  var isInside = isForward ? this.positionX < bound : this.positionX > bound;
-  if ( this.isDragging || isInside ) {
+function applyBoundForce( bound, isForward ) {
+  var isInside = isForward ? positionX < bound : positionX > bound;
+  if ( isDragging || isInside ) {
     return;
   }
   // bouncing past bound
-  var distance = bound - this.positionX;
+  var distance = bound - positionX;
   var force = distance * 0.1;
-  var restX = this.positionX + ( this.velocityX + force ) * this.friction / ( 1 - this.friction );
+  var restX = positionX + ( velocityX + force ) * friction / ( 1 - friction );
   var isRestOutside = isForward ? restX > bound : restX < bound;
   if ( isRestOutside ) {
-    this.applyForce( force );
+    applyForce( force );
     return;
   }
   // bounce back
   force = distance * 0.1 - this.velocityX;
-  this.applyForce( force );
-};
-
-Particle.prototype.render = function() {
-  this.element.style.transform = 'translateX(' + (this.positionX ) + 'px)';
-};
-
-// ----- demo ----- //
-
-var particle;
-
-document.addEventListener( 'DOMContentLoaded', init, false );
-
-function init() {
-  // create particle
-  var img = document.querySelector('img');
-  particle = new Particle( img );
-  particle.rightBound = 0;
-  particle.leftBound = window.innerWidth - 2000; // 2000 = img width
-
-  document.body.addEventListener( 'mousedown', onMousedown, false );
-  // start animation
-  animate();
+  applyForce( force );
 }
+
+function render() {
+  photoElem.style.transform = 'translateX(' + (this.positionX ) + 'px)';
+}
+
+// ----- init ----- //
+
+// create particle
+photoElem = document.querySelector('img');
+// set bounds
+rightBound = 0;
+leftBound = window.innerWidth - 2000; // 2000 = img width
+
+document.body.addEventListener( 'mousedown', onMousedown, false );
 
 function animate() {
-  particle.update();
-  particle.render();
+  update();
+  render();
   requestAnimationFrame( animate );
 }
+// start animation
+animate();
+
+// ----- mouse events ----- //
 
 var dragStartX;
 var particleDragStartX;
-var isDragging = false;
 
 function onMousedown( event ) {
   event.preventDefault();
   // get drag start positions
   dragStartX = event.pageX;
-  particleDragStartX = particle.positionX;
-  particle.isDragging = true;
+  particleDragStartX = positionX;
   isDragging = true;
   setDragPositionX( event );
   window.addEventListener( 'mousemove', onMousemove, false );
@@ -110,12 +99,12 @@ function onMousemove( event ) {
 function setDragPositionX( event ) {
   var moveX = event.pageX - dragStartX;
   // set dragPosition
-  particle.dragPositionX = particleDragStartX + moveX;
+  dragPositionX = particleDragStartX + moveX;
 }
 
 // stop dragging
 function onMouseup() {
-  particle.isDragging = false;
+  isDragging = false;
   window.removeEventListener( 'mousemove', onMousemove, false );
   window.removeEventListener( 'mouseup', onMouseup, false );
 }
