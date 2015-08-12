@@ -21,3 +21,7 @@ Also available on CodePen
 
 Demo use mouse events to keep code simple, even though I recommend using physics for touch-based devices. Yes, I realize the irony.
 
+## Additional resources
+
++ [Nature of Code](http://natureofcode.com/) by Daniel Shiffman, Chapters 1 & 2
++ [Coding Math videos on YouTube](https://www.youtube.com/user/codingmath/) by Keith Peters
